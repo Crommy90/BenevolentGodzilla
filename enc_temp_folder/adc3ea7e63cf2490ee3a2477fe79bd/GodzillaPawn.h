@@ -22,9 +22,9 @@ public:
 	UPROPERTY( Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true") )
 		class UCapsuleComponent* CapsuleComponent;
 
-	/** Movement component used for movement logic in various movement modes (walking, falling, etc), containing relevant settings and functions to control movement. */
-	UPROPERTY( Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true") )
-		class UGodzillaMovementComponent* MovementComponent;
+	///** Movement component used for movement logic in various movement modes (walking, falling, etc), containing relevant settings and functions to control movement. */
+	//UPROPERTY( Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true") )
+	//	class U* MovementComponent;
 
 protected:
 	// Called when the game starts or when spawned
@@ -36,12 +36,20 @@ protected:
 	/** Called for side to side input */
 	void MoveRight( float Value );
 
+	bool m_carrying;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		bool IsCarrying() const;
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		void SetCarrying( bool carry );
 
 	UPROPERTY( EditAnywhere )
 		APlanet* m_planet;

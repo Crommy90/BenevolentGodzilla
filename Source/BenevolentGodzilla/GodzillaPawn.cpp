@@ -27,11 +27,11 @@ AGodzillaPawn::AGodzillaPawn()
 	CapsuleComponent->bDynamicObstacle = true;
 	RootComponent = CapsuleComponent;
 
-	MovementComponent = CreateDefaultSubobject<UGodzillaMovementComponent>( "Movement Component" );
-	if ( MovementComponent )
-	{
-		MovementComponent->UpdatedComponent = RootComponent;
-	}
+	//MovementComponent = CreateDefaultSubobject<UGodzillaMovementComponent>( "Movement Component" );
+	//if ( MovementComponent )
+	//{
+	//	MovementComponent->UpdatedComponent = RootComponent;
+	//}
 
 }
 
@@ -65,12 +65,24 @@ void AGodzillaPawn::SetupPlayerInputComponent( UInputComponent* PlayerInputCompo
 	check( PlayerInputComponent );
 	PlayerInputComponent->BindAxis( "MoveForward", this, &AGodzillaPawn::MoveForward );
 	PlayerInputComponent->BindAxis( "MoveRight", this, &AGodzillaPawn::MoveRight );
+
+	PlayerInputComponent->BindAction( "Carry", IE_Pressed, this, &AGodzillaPawn::ToggleCarry );
 }
 
 
-bool AGodzillaPawn::IsCarryig() const
+void AGodzillaPawn::SetCarrying( bool carry )
 {
-	return true;
+	m_carrying = carry;
+}
+
+void AGodzillaPawn::ToggleCarry()
+{
+	m_carrying = !m_carrying;
+}
+
+bool AGodzillaPawn::IsCarrying() const
+{
+	return m_carrying;
 }
 
 void AGodzillaPawn::MoveForward( float Value )
