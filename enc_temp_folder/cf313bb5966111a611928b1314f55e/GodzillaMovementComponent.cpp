@@ -49,11 +49,6 @@ void UGodzillaMovementComponent::TickComponent( float DeltaTime, enum ELevelTick
 			{
 				if ( Additional_Velocity.Y != 0.f )
 				{
-					FVector Location = GetPawnOwner()->GetActorLocation();
-					if ( Location.Z < 0.f )
-					{
-
-					}
 					delta_rot.Yaw = Additional_Velocity.Y * DeltaTime * 45.f;
 				}
 				Additional_Velocity.Y = 0.f;
