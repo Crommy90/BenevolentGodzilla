@@ -21,7 +21,7 @@ public:
 
 	/** Acceleration applied by input (rate of change of velocity) */
 	UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = FloatingPawnMovement )
-		float Acceleration;
+		float AccelerationRate;
 
 	/** Deceleration applied when there is no input (rate of change of velocity) */
 	UPROPERTY( EditAnywhere, BlueprintReadWrite, Category = FloatingPawnMovement )
@@ -36,14 +36,7 @@ public:
 		float TurningBoost;
 
 private:
-
-	FVector Forward_Vector;
-
-	bool LimitWorldBounds();
-
-	/** Set to true when a position correction is applied. Used to avoid recalculating velocity when this occurs. */
-	UPROPERTY( Transient )
-		uint32 bPositionCorrected : 1;
+	FVector LocalVelocity;
 	
 	
 };

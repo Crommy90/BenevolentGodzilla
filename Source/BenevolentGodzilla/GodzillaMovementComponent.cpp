@@ -10,10 +10,9 @@ UGodzillaMovementComponent::UGodzillaMovementComponent( const FObjectInitializer
 	: Super( ObjectInitializer )
 {
 	MaxSpeed = 1200.f;
-	Acceleration = 4000.f;
+	AccelerationRate = 4000.f;
 	Deceleration = 8000.f;
 	TurningBoost = 8.0f;
-	bPositionCorrected = false;
 
 	ResetMoveState();
 }
@@ -38,10 +37,31 @@ void UGodzillaMovementComponent::TickComponent( float DeltaTime, enum ELevelTick
 		// apply input for local players but also for AI that's not following a navigation path at the moment
 		if ( Controller->IsLocalPlayerController() == true || Controller->IsFollowingAPath() == false )
 		{
-			FVector change = ConsumeInputVector().GetClampedToMaxSize( 1.f );
-			change *= DeltaTime;
-			change *= MaxSpeed;
-			//if ( !change.IsNearlyZero() )
+			const FVector OldVelocity = LocalVelocity;
+			FVector Additional_Velocity = ConsumeInputVector().GetClampedToMaxSize( 1.f );
+			FRotator delta_rot = FRotator::ZeroRotator;
+			if ( Additional_Velocity.IsNearlyZero() )
+			{
+				const float VelSize = FMath::Max( LocalVelocity.Size() - FMath::Abs( Deceleration ) * DeltaTime, 0.f );
+				LocalVelocity = LocalVelocity.GetSafeNormal() * VelSize;
+			}
+			else
+			{
+				if ( Additional_Velocity.Y != 0.f )
+				{
+					delta_rot.Yaw = Additional_Velocity.Y * DeltaTime * 45.f;
+				}
+				Additional_Velocity.Y = 0.f;
+				Additional_Velocity *= AccelerationRate;
+				Additional_Velocity *= DeltaTime;
+				LocalVelocity += Additional_Velocity;
+			}
+			// Apply acceleration and clamp velocity magnitude.
+			const float NewMaxSpeed = (IsExceedingMaxSpeed( MaxSpeed )) ? LocalVelocity.Size() : MaxSpeed;
+			LocalVelocity = LocalVelocity.GetClampedToMaxSize( NewMaxSpeed );
+
+
+			//if ( !LocalVelocity.IsNearlyZero() )
 			{
 				AGodzillaPawn* Owner = Cast<AGodzillaPawn>( GetPawnOwner() );
 
@@ -49,90 +69,20 @@ void UGodzillaMovementComponent::TickComponent( float DeltaTime, enum ELevelTick
 
 				if ( Owner )
 				{
-					change = Owner->GetControlRotation().RotateVector( change );
-					Owner->m_planet->GetPositionAndNormal( Owner->GetActorLocation() + change, position, normal );
+					Velocity = Owner->GetActorRotation().RotateVector( LocalVelocity );
+					Owner->m_planet->GetPositionAndNormal( Owner->GetActorLocation() + (Velocity * DeltaTime ), position, normal );
 					FRotator Actor_Rotation = Owner->GetActorRotation();
 					FMatrix rotation = FRotationMatrix::MakeFromZX( normal, Owner->GetActorForwardVector() );
-					FVector Delta = position - Owner->GetActorLocation();
+					FRotator roation_again = rotation.Rotator() + delta_rot;
 					FHitResult OutHit;
-					SafeMoveUpdatedComponent( Delta, rotation.ToQuat(), false, OutHit );
-					//FRotator as_rotation = normal.Rotation();
-					//as_rotation += Owner->m_StartRotation;
-
-					Controller->SetControlRotation( rotation.Rotator() );
+					SafeMoveUpdatedComponent( position - GetActorLocation(), roation_again.Quaternion(), false, OutHit );
+					Controller->SetControlRotation( roation_again );
 				}
 			}
 
 		}
-		//// if it's not player controller, but we do have a controller, then it's AI
-		//// (that's not following a path) and we need to limit the speed
-		//else if ( IsExceedingMaxSpeed( MaxSpeed ) == true )
-		//{
-		//	Velocity = Velocity.GetUnsafeNormal() * MaxSpeed;
-		//}
-
-		//LimitWorldBounds();
-		//bPositionCorrected = false;
-
-		//// Move actor
-		//FVector Delta = Velocity * DeltaTime;
-
-		//if ( !Delta.IsNearlyZero( 1e-6f ) )
-		//{
-		//	const FVector OldLocation = UpdatedComponent->GetComponentLocation();
-		//	FQuat Rotation = UpdatedComponent->GetComponentQuat();
-
-		//	AGodzillaPawn* Owner = Cast<AGodzillaPawn>(GetPawnOwner());
-
-		//	FVector position, normal;
-
-		//	if ( Owner )
-		//	{
-		//		Owner->m_planet->GetPositionAndNormal( Delta + Owner->GetActorLocation(), position, normal );
-		//		Delta = position - Owner->GetActorLocation();
-		//	}
-
-		//	FHitResult Hit( 1.f );
-		//	SafeMoveUpdatedComponent( Delta, Rotation, true, Hit );
-
-			//if ( Hit.IsValidBlockingHit() )
-			//{
-			//	HandleImpact( Hit, DeltaTime, Delta );
-			//	// Try to slide the remaining distance along the surface.
-			//	SlideAlongSurface( Delta, 1.f - Hit.Time, Hit.Normal, Hit, true );
-			//}
-			//Owner->SetActorLocation( position );
-			//Owner->SetActorRotation( normal.Rotation().Quaternion());
-
-			//// Update velocity
-			//// We don't want position changes to vastly reverse our direction (which can happen due to penetration fixups etc)
-			//if ( !bPositionCorrected )
-			//{
-			//	const FVector NewLocation = UpdatedComponent->GetComponentLocation();
-			//	Velocity = ((NewLocation - OldLocation) / DeltaTime);
-			//}
-		//}
 
 		// Finalize
 		UpdateComponentVelocity();
 	}
-}
-
-
-bool UGodzillaMovementComponent::LimitWorldBounds()
-{
-	AWorldSettings* WorldSettings = PawnOwner ? PawnOwner->GetWorldSettings() : NULL;
-	if ( !WorldSettings || !WorldSettings->bEnableWorldBoundsChecks || !UpdatedComponent )
-	{
-		return false;
-	}
-
-	const FVector CurrentLocation = UpdatedComponent->GetComponentLocation();
-	if ( CurrentLocation.Z < WorldSettings->KillZ )
-	{
-		Velocity.Z = FMath::Min( GetMaxSpeed(), WorldSettings->KillZ - CurrentLocation.Z + 2.0f );
-		return true;
-	}
-
-	return false;
 }

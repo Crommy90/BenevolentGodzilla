@@ -12,9 +12,9 @@ AGodzillaPawn::AGodzillaPawn()
 
 	// Character rotation only changes in Yaw, to prevent the capsule from changing orientation.
 	// Ask the Controller for the full rotation if desired (ie for aiming).
-	bUseControllerRotationPitch = false;
+	bUseControllerRotationPitch = true;
 	bUseControllerRotationRoll = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 
 	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>( ACharacter::CapsuleComponentName );
 	CapsuleComponent->InitCapsuleSize( 34.0f, 88.0f );
@@ -27,11 +27,11 @@ AGodzillaPawn::AGodzillaPawn()
 	CapsuleComponent->bDynamicObstacle = true;
 	RootComponent = CapsuleComponent;
 
-	//MovementComponent = CreateDefaultSubobject<UGodzillaMovementComponent>( "Movement Component" );
-	//if ( MovementComponent )
-	//{
-	//	MovementComponent->UpdatedComponent = RootComponent;
-	//}
+	MovementComponent = CreateDefaultSubobject<UGodzillaMovementComponent>( "Movement Component" );
+	if ( MovementComponent )
+	{
+		MovementComponent->UpdatedComponent = RootComponent;
+	}
 
 }
 
@@ -89,13 +89,7 @@ void AGodzillaPawn::MoveForward( float Value )
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation( 0, Rotation.Yaw, 0 );
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix( YawRotation ).GetUnitAxis( EAxis::X );
-		AddMovementInput( Direction, Value );
+		AddMovementInput( FVector( 1.f, 0.f, 0.f ), Value );
 	}
 }
 
@@ -103,13 +97,6 @@ void AGodzillaPawn::MoveRight( float Value )
 {
 	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation( 0, Rotation.Yaw, 0 );
-
-		// get right vector 
-		const FVector Direction = FRotationMatrix( YawRotation ).GetUnitAxis( EAxis::Y );
-		// add movement in that direction
-		AddMovementInput( Direction, Value );
+		AddMovementInput( FVector( 0.f, 1.f, 0.f ), Value );
 	}
 }

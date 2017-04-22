@@ -23,8 +23,8 @@ public:
 		class UCapsuleComponent* CapsuleComponent;
 
 	///** Movement component used for movement logic in various movement modes (walking, falling, etc), containing relevant settings and functions to control movement. */
-	//UPROPERTY( Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true") )
-	//	class U* MovementComponent;
+	UPROPERTY( Category = Character, VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true") )
+		class UGodzillaMovementComponent* MovementComponent;
 
 protected:
 	// Called when the game starts or when spawned
