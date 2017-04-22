@@ -76,7 +76,7 @@ void UGodzillaMovementComponent::TickComponent( float DeltaTime, enum ELevelTick
 				if ( Owner )
 				{
 					Velocity = Owner->GetActorRotation().RotateVector( LocalVelocity );
-					Owner->m_planet->GetPositionAndNormal( Owner->GetActorLocation() + (Velocity * DeltaTime ), position, normal );
+					Owner->m_planet->GetPositionAndNormal( Owner->GetActorLocation() + (Velocity * DeltaTime ), position, normal, Owner->CapsuleComponent->GetScaledCapsuleHalfHeight() );
 					FRotator Actor_Rotation = Owner->GetActorRotation();
 					FMatrix rotation = FRotationMatrix::MakeFromZX( normal, Owner->GetActorForwardVector() );
 					FRotator roation_again = rotation.Rotator() + delta_rot;

@@ -36,7 +36,9 @@ protected:
 	/** Called for side to side input */
 	void MoveRight( float Value );
 
-	bool m_carrying;
+	bool m_carrying = false;
+
+	bool m_breathing_fire = false;
 
 public:	
 	// Called every frame
@@ -53,6 +55,25 @@ public:
 
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
 		void ToggleCarry();
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		void ToggleBreathFire();
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		void SetBreatheFire( bool fire);
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		bool IsBreathingFire() const;
+
+	void StartFire();
+
+	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
+	void StartFire_BP();
+
+	void EndFire();
+
+	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
+		void EndFire_BP();
 
 	UPROPERTY( EditAnywhere )
 		APlanet* m_planet;

@@ -39,11 +39,11 @@ void APlanet::OnConstruction( const FTransform& Transform )
 	SetActorScale3D( FVector( scale_ratio ) );
 }
 
-void APlanet::GetPositionAndNormal( const FVector& position_in, FVector& position, FVector& Normal ) const
+void APlanet::GetPositionAndNormal( const FVector& position_in, FVector& position, FVector& Normal, float RadiusAddition ) const
 {
 	// First find the normal
 	Normal = ( position_in - GetActorLocation()).GetSafeNormal();
 
-	position = GetActorLocation() + (Normal * m_Radius);
+	position = GetActorLocation() + (Normal * ( m_Radius + RadiusAddition ));
 }
 

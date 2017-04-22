@@ -24,7 +24,7 @@ public:
 
 	void OnConstruction( const FTransform& Transform ) override;
 
-	void GetPositionAndNormal( const FVector& position_in, FVector& position, FVector& Normal ) const;
+	void GetPositionAndNormal( const FVector& position_in, FVector& position, FVector& Normal, float RadiusAddition ) const;
 
 	UPROPERTY( EditAnywhere, BlueprintReadOnly, Category = Planet )
 		float m_Radius;

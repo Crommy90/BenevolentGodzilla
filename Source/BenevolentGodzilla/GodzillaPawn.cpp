@@ -32,6 +32,8 @@ AGodzillaPawn::AGodzillaPawn()
 	{
 		MovementComponent->UpdatedComponent = RootComponent;
 	}
+	m_carrying = false;
+	m_breathing_fire = false;
 
 }
 
@@ -67,6 +69,8 @@ void AGodzillaPawn::SetupPlayerInputComponent( UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAxis( "MoveRight", this, &AGodzillaPawn::MoveRight );
 
 	PlayerInputComponent->BindAction( "Carry", IE_Pressed, this, &AGodzillaPawn::ToggleCarry );
+	PlayerInputComponent->BindAction( "Fire", IE_Pressed, this, &AGodzillaPawn::StartFire );
+	PlayerInputComponent->BindAction( "Fire", IE_Released, this, &AGodzillaPawn::EndFire );
 }
 
 
@@ -78,6 +82,65 @@ void AGodzillaPawn::SetCarrying( bool carry )
 void AGodzillaPawn::ToggleCarry()
 {
 	m_carrying = !m_carrying;
+}
+
+void AGodzillaPawn::ToggleBreathFire()
+{
+	if ( m_carrying )
+	{
+		m_breathing_fire = false;
+	}
+	else
+	{
+		m_breathing_fire = !m_breathing_fire;
+	}
+	if ( m_breathing_fire )
+	{
+		StartFire_BP();
+	}
+	else
+	{
+		EndFire_BP();
+	}
+}
+
+void AGodzillaPawn::SetBreatheFire( bool fire )
+{
+	if ( m_carrying )
+	{
+		m_breathing_fire = false;
+	}
+	else
+	{
+		m_breathing_fire = fire;
+	}
+	if ( m_breathing_fire )
+	{
+		StartFire_BP();
+	}
+	else
+	{
+		EndFire_BP();
+	}
+}
+
+bool AGodzillaPawn::IsBreathingFire() const
+{
+	return m_breathing_fire;
+}
+
+void AGodzillaPawn::StartFire()
+{
+	if ( m_carrying )
+		return;
+	m_breathing_fire = true;
+	StartFire_BP();
+}
+
+void AGodzillaPawn::EndFire()
+{
+	m_breathing_fire = false;
+	EndFire_BP();
 }
 
 bool AGodzillaPawn::IsCarrying() const
