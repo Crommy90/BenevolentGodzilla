@@ -26,3 +26,7 @@ void AResourcePoint::Tick(float DeltaTime)
 
 }
 
+ResourceColour AResourcePoint::GetColour() const
+{
+	return m_colour;
+}

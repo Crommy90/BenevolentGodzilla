@@ -23,10 +23,13 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere) 
-	TArray<ResourceColour> m_Required;
-	
-	TArray<ResourceColour> m_Placed;
+	UFUNCTION(BlueprintCallable, Category = "BuildingSite")
+		void PlaceColour(ResourceColour colour);
 
-	float m_PercentageWelded;
+	UPROPERTY(EditAnywhere) 
+	TArray<ResourceColour> m_required;
+	
+	TArray<ResourceColour> m_placed;
+
+	float m_percentage_welded;
 };

@@ -79,9 +79,14 @@ void AGodzillaPawn::SetCarrying( bool carry )
 	m_carrying = carry;
 }
 
-void AGodzillaPawn::ToggleCarry()
+ResourceColour AGodzillaPawn::GetCarryingColour() const
 {
-	m_carrying = !m_carrying;
+	return m_colour;
+}
+
+void AGodzillaPawn::SetCarryingColour(ResourceColour colour)
+{
+	m_colour = colour;
 }
 
 void AGodzillaPawn::ToggleBreathFire()

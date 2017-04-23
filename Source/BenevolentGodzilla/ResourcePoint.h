@@ -5,13 +5,13 @@
 #include "GameFramework/Actor.h"
 #include "ResourcePoint.generated.h"
 
-UENUM()
-enum class ResourceColour
+UENUM(BlueprintType)
+enum class ResourceColour : uint8
 {
 	// Place-holder colours
-	Blue,
-	Green,
-	Yellow,
+	Blue UMETA(DisplayName="Blue"),
+	Green UMETA(DisplayName = "Green"),
+	Yellow UMETA(DisplayName = "Yellow"),
 	Count
 };
 
@@ -32,6 +32,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable, Category = "ResourcePoint")
+		ResourceColour GetColour() const;
+
 	UPROPERTY(EditAnywhere)
-	ResourceColour m_Colour;
+	ResourceColour m_colour;
 };

@@ -6,6 +6,7 @@
 
 #include "GodzillaMovementComponent.h"
 #include "Planet.h"
+#include "ResourcePoint.h"
 
 #include "GodzillaPawn.generated.h"
 
@@ -35,9 +36,12 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight( float Value );
-
+public:
+	UPROPERTY(EditAnywhere)
 	bool m_carrying = false;
-
+	UPROPERTY(EditAnywhere)
+	ResourceColour m_colour;
+	UPROPERTY(EditAnywhere)
 	bool m_breathing_fire = false;
 
 public:	
@@ -53,7 +57,13 @@ public:
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
 		void SetCarrying( bool carry );
 
-	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+	UFUNCTION(BlueprintCallable, Category = "Godzilla")
+		ResourceColour GetCarryingColour() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Godzilla")
+		void SetCarryingColour(ResourceColour colour);
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Godzilla" )
 		void ToggleCarry();
 
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
