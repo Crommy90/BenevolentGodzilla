@@ -66,13 +66,26 @@ void AGodzillaPawn::Tick(float DeltaTime)
 		break;
 	case GodzillaState::Happy:
 	case GodzillaState::Sad:
-		if ( m_TimeSinceStateChange > 4.f )
+		if ( m_TimeSinceStateChange > 3.f )
 		{
 			SetState( GodzillaState::Normal );
 		}
 		break;
 	}
-
+	if ( m_burnt_site && m_successful_burn_delay >= 0.f )
+	{
+		m_successful_burn_delay += DeltaTime;
+		if ( m_successful_burn_delay > 2.f )
+		{
+			m_burnt_site->building_fired();
+			if ( m_burnt_site->m_complete )
+			{
+				SetState( GodzillaState::Happy );
+			}
+			m_burnt_site = nullptr;
+			m_successful_burn_delay = -1.f;
+		}
+	}
 }
 
 // Called to bind functionality to input
@@ -205,18 +218,18 @@ void AGodzillaPawn::OverlappedBuilding( ABuildingSite* building )
 	m_building = building;
 	if ( m_carrying )
 	{
-		building->PlaceColour( m_colour );
+		if ( !building->PlaceColour( m_colour ) )
+		{
+			SetState( GodzillaState::Sad );
+		}
 		m_carrying = false;
 	}
 }
 
 void AGodzillaPawn::FireBuilding( ABuildingSite* building )
 {
-	if ( building )
-	{
-		SetState( GodzillaState::Happy );
-		building->building_fired();
-	}
+	m_burnt_site = building;
+	m_successful_burn_delay = 0.f;
 }
 
 bool AGodzillaPawn::IsCarrying() const

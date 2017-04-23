@@ -28,12 +28,18 @@ public:
 	void OnConstruction( const FTransform& Transform ) override;
 
 	UFUNCTION(BlueprintCallable, Category = "BuildingSite")
-		void PlaceColour(ResourceColour colour);
+		bool PlaceColour(ResourceColour colour);
 
 	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
 		void ColourPlaced_BP();
 
 	void building_fired();
+
+	UFUNCTION( BlueprintCallable, Category = "BuildingSite" )
+		ResourceColour NextColour() const;
+
+	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
+		void burnt_BP();
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly) 

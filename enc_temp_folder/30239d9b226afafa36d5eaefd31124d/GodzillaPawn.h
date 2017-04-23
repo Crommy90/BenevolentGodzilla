@@ -121,9 +121,6 @@ public:
 
 	FRotator m_StartRotation;
 
-	ABuildingSite* m_burnt_site = nullptr;
-	float m_successful_burn_delay = -1.f;
-
 	
 	
 };

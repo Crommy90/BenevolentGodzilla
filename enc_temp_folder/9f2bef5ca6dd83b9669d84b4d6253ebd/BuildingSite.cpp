@@ -73,35 +73,21 @@ void ABuildingSite::OnConstruction( const FTransform& Transform )
 	}*/
 }
 
-bool ABuildingSite::PlaceColour(ResourceColour colour)
+void ABuildingSite::PlaceColour(ResourceColour colour)
 {
+	m_placed.Add(colour);
+	m_required.RemoveSingle(colour);
 	int total = m_placed.Num() + m_required.Num();
-	if ( total == 0 || m_complete || m_percentage_welded >= 100.f )
+	if ( total == 0 )
 	{
 		m_percentage_welded = 100.f;
-		return true;
 	}
-	else if( colour == m_required[0] )
+	else
 	{
-		m_placed.Add( colour );
-		m_required.RemoveAt( 0 );
 		float total_f = (float)total;
 		float not_done = m_required.Num();
 		m_percentage_welded = ((total_f - not_done) / total_f) * 100.f;
 		ColourPlaced_BP();
-		return true;
-	}
-	else
-	{
-		for ( int i = 0; i < m_placed.Num(); ++i )
-		{
-			m_required.Add( m_placed[i] );
-		}
-		m_placed.Empty();
-		float total_f = (float)total;
-		float not_done = m_required.Num();
-		m_percentage_welded = ((total_f - not_done) / total_f) * 100.f;
-		return false;
 	}
 }
 
@@ -110,11 +96,5 @@ void ABuildingSite::building_fired()
 	if ( m_percentage_welded >= 100.f )
 	{
 		m_complete = true;
-		burnt_BP();
 	}
-}
-
-ResourceColour ABuildingSite::NextColour() const
-{
-	return m_required[0];
 }
