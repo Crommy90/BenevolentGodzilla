@@ -193,11 +193,13 @@ void AGodzillaPawn::EndFire()
 void AGodzillaPawn::OverlappedResource( AResourcePoint* resource )
 {
 	m_resource = resource;
+	m_carrying = true;
 }
 
 void AGodzillaPawn::OverlappedBuilding( ABuildingSite* building )
 {
 	m_building = building;
+	m_carrying = false;
 }
 
 void AGodzillaPawn::FireBuilding( ABuildingSite* building )
