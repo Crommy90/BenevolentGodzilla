@@ -10,6 +10,9 @@
 
 #include "GodzillaPawn.generated.h"
 
+class AResourcePoint;
+class ABuildingSite;
+
 UCLASS()
 class BENEVOLENTGODZILLA_API AGodzillaPawn : public APawn
 {
@@ -44,6 +47,9 @@ public:
 	UPROPERTY(EditAnywhere)
 	bool m_breathing_fire = false;
 
+	AResourcePoint* m_resource = nullptr;
+	ABuildingSite* m_building = nullptr;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -63,7 +69,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Godzilla")
 		void SetCarryingColour(ResourceColour colour);
 
-	UFUNCTION(BlueprintImplementableEvent, Category = "Godzilla" )
+	UFUNCTION(BlueprintCallable, Category = "Godzilla" )
 		void ToggleCarry();
 
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
@@ -84,6 +90,12 @@ public:
 
 	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
 		void EndFire_BP();
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		void OverlappedResource( AResourcePoint* resource );
+
+	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
+		void OverlappedBuilding( ABuildingSite* building );
 
 	UPROPERTY( EditAnywhere )
 		APlanet* m_planet;

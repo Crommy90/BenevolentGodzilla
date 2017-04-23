@@ -3,6 +3,9 @@
 #include "BenevolentGodzilla.h"
 #include "GodzillaPawn.h"
 
+#include "ResourcePoint.h"
+#include "BuildingSite.h"
+
 
 // Sets default values
 AGodzillaPawn::AGodzillaPawn()
@@ -89,6 +92,11 @@ void AGodzillaPawn::SetCarryingColour(ResourceColour colour)
 	m_colour = colour;
 }
 
+void AGodzillaPawn::ToggleCarry()
+{
+	m_carrying = !m_carrying;
+}
+
 void AGodzillaPawn::ToggleBreathFire()
 {
 	if ( m_carrying )
@@ -146,6 +154,16 @@ void AGodzillaPawn::EndFire()
 {
 	m_breathing_fire = false;
 	EndFire_BP();
+}
+
+void AGodzillaPawn::OverlappedResource( AResourcePoint* resource )
+{
+	m_resource = resource;
+}
+
+void AGodzillaPawn::OverlappedBuilding( ABuildingSite* building )
+{
+	m_building = building;
 }
 
 bool AGodzillaPawn::IsCarrying() const
