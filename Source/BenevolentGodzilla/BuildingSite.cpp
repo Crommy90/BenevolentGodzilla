@@ -29,5 +29,5 @@ void ABuildingSite::Tick(float DeltaTime)
 void ABuildingSite::PlaceColour(ResourceColour colour)
 {
 	m_placed.Add(colour);
-	m_required.Remove(colour);
+	m_required.RemoveSingle(colour);
 }

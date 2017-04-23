@@ -94,7 +94,16 @@ void AGodzillaPawn::SetCarryingColour(ResourceColour colour)
 
 void AGodzillaPawn::ToggleCarry()
 {
-	m_carrying = !m_carrying;
+	if (m_carrying && m_building)
+	{
+		m_carrying = false;
+		m_building->PlaceColour(m_colour);
+	}
+	else if (!m_carrying && m_resource)
+	{
+		m_carrying = true;
+		m_colour = m_resource->GetColour();
+	}
 }
 
 void AGodzillaPawn::ToggleBreathFire()
