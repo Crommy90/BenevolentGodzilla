@@ -28,6 +28,15 @@ public:
 
 	UPROPERTY(EditAnywhere) 
 	TArray<ResourceColour> m_required;
+
+	UPROPERTY(EditAnywhere)
+	UStaticMesh* m_cube;
+	UPROPERTY(EditAnywhere)
+	UMaterialInterface* m_blue;
+	UPROPERTY(EditAnywhere)
+	UMaterialInterface* m_green;
+	UPROPERTY(EditAnywhere)
+	UMaterialInterface* m_yellow;
 	
 	TArray<ResourceColour> m_placed;
 

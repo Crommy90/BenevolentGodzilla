@@ -2,6 +2,7 @@
 
 #include "BenevolentGodzilla.h"
 #include "BuildingSite.h"
+#include "SwatchComponent.h"
 
 
 // Sets default values
@@ -17,6 +18,26 @@ void ABuildingSite::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	FName swatch_component_name("SwatchComponent");
+	for (auto colour : m_required)
+	{
+		/*auto mesh = CreateDefaultSubobject<UStaticMeshComponent>(swatch_component_name);
+		mesh->SetStaticMesh(m_cube);
+		switch (colour)
+		{
+		case ResourceColour::Blue:
+			mesh->SetMaterial(0, m_blue);
+			break;
+
+		case ResourceColour::Green:
+			mesh->SetMaterial(0, m_green);
+			break;
+
+		case ResourceColour::Yellow:
+			mesh->SetMaterial(0, m_yellow);
+			break;
+		}*/
+	}
 }
 
 // Called every frame
