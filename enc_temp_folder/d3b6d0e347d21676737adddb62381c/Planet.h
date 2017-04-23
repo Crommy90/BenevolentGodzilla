@@ -24,7 +24,6 @@ public:
 
 	void OnConstruction( const FTransform& Transform ) override;
 
-	UFUNCTION( BlueprintCallable, Category = "Location" )
 	void GetPositionAndNormal( const FVector& position_in, FVector& position, FVector& Normal, float RadiusAddition ) const;
 
 	UPROPERTY( EditAnywhere, BlueprintReadOnly, Category = Planet )
