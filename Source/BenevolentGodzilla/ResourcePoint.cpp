@@ -3,6 +3,8 @@
 #include "BenevolentGodzilla.h"
 #include "ResourcePoint.h"
 
+#include "Planet.h"
+
 
 // Sets default values
 AResourcePoint::AResourcePoint()
@@ -29,4 +31,20 @@ void AResourcePoint::Tick(float DeltaTime)
 ResourceColour AResourcePoint::GetColour() const
 {
 	return m_colour;
+}
+
+void AResourcePoint::OnConstruction( const FTransform& Transform )
+{
+	APlanet* planet = nullptr;
+	for ( TActorIterator<APlanet> ActorItr( GetWorld() ); ActorItr; ++ActorItr )
+	{
+		planet = *ActorItr;
+		if ( planet )
+		{
+			FVector position, normal;
+			planet->GetPositionAndNormal( GetActorLocation(), position, normal, 0.f );
+			SetActorLocation( position );
+			break;
+		}
+	}
 }

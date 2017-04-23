@@ -37,4 +37,6 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	ResourceColour m_colour;
+
+	void OnConstruction( const FTransform& Transform ) override;
 };

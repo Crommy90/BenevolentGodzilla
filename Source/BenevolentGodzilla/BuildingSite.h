@@ -23,6 +23,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	void OnConstruction( const FTransform& Transform ) override;
+
 	UFUNCTION(BlueprintCallable, Category = "BuildingSite")
 		void PlaceColour(ResourceColour colour);
 
