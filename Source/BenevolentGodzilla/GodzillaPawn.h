@@ -39,14 +39,12 @@ protected:
 
 	/** Called for side to side input */
 	void MoveRight( float Value );
-public:
-	UPROPERTY(EditAnywhere)
-	bool m_carrying = false;
-	UPROPERTY(EditAnywhere)
-	ResourceColour m_colour;
-	UPROPERTY(EditAnywhere)
-	bool m_breathing_fire = false;
 
+	bool m_carrying = false;
+	ResourceColour m_colour;
+	
+	bool m_breathing_fire = false;
+	
 	AResourcePoint* m_resource = nullptr;
 	ABuildingSite* m_building = nullptr;
 
