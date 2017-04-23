@@ -2,10 +2,6 @@
 
 #include "BenevolentGodzilla.h"
 #include "BuildingSite.h"
-<<<<<<< HEAD
-//#include "SwatchComponent.h"
-=======
->>>>>>> origin/master
 
 #include "Planet.h"
 
