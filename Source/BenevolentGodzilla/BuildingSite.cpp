@@ -3,6 +3,8 @@
 #include "BenevolentGodzilla.h"
 #include "BuildingSite.h"
 
+#include "Planet.h"
+
 
 // Sets default values
 ABuildingSite::ABuildingSite()
@@ -24,6 +26,22 @@ void ABuildingSite::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void ABuildingSite::OnConstruction( const FTransform& Transform )
+{
+	APlanet* planet = nullptr;
+	for ( TActorIterator<APlanet> ActorItr( GetWorld() ); ActorItr; ++ActorItr )
+	{
+		planet = *ActorItr;
+		if ( planet )
+		{
+			FVector position, normal;
+			planet->GetPositionAndNormal( GetActorLocation(), position, normal, 0.f );
+			SetActorLocation( position );
+			break;
+		}
+	}
 }
 
 void ABuildingSite::PlaceColour(ResourceColour colour)
