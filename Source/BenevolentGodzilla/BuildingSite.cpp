@@ -47,5 +47,5 @@ void ABuildingSite::OnConstruction( const FTransform& Transform )
 void ABuildingSite::PlaceColour(ResourceColour colour)
 {
 	m_placed.Add(colour);
-	m_required.Remove(colour);
+	m_required.RemoveSingle(colour);
 }
