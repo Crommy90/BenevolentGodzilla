@@ -35,8 +35,7 @@ public:
 
 	void building_fired();
 
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly) 
+	UPROPERTY(EditAnywhere) 
 	TArray<ResourceColour> m_required;
 
 	UPROPERTY(EditAnywhere)
