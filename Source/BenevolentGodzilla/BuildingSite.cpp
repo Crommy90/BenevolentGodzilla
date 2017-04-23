@@ -2,7 +2,7 @@
 
 #include "BenevolentGodzilla.h"
 #include "BuildingSite.h"
-#include "SwatchComponent.h"
+//#include "SwatchComponent.h"
 
 #include "Planet.h"
 
