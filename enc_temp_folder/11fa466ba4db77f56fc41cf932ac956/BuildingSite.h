@@ -30,9 +30,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "BuildingSite")
 		void PlaceColour(ResourceColour colour);
 
-	UFUNCTION( BlueprintImplementableEvent, Category = "Godzilla" )
-		void ColourPlaced_BP();
-
 	void building_fired();
 
 	UPROPERTY(EditAnywhere) 
@@ -49,9 +46,7 @@ public:
 	
 	TArray<ResourceColour> m_placed;
 
-	UPROPERTY( BlueprintReadOnly )
 	float m_percentage_welded;
 
-	UPROPERTY( BlueprintReadOnly )
 	bool m_complete = false;
 };

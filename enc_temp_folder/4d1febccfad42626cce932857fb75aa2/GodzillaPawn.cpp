@@ -199,10 +199,6 @@ void AGodzillaPawn::OverlappedResource( AResourcePoint* resource )
 void AGodzillaPawn::OverlappedBuilding( ABuildingSite* building )
 {
 	m_building = building;
-	if ( m_carrying )
-	{
-		m_building->PlaceColour( m_colour );
-	}
 	m_carrying = false;
 }
 

@@ -86,8 +86,7 @@ void ABuildingSite::PlaceColour(ResourceColour colour)
 	{
 		float total_f = (float)total;
 		float not_done = m_required.Num();
-		m_percentage_welded = ((total_f - not_done) / total_f) * 100.f;
-		ColourPlaced_BP();
+		m_percentage_welded = (not_done / total_f) * 100.f;
 	}
 }
 
