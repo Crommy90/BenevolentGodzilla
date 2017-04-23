@@ -58,20 +58,6 @@ void AGodzillaPawn::BeginPlay()
 void AGodzillaPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	m_TimeSinceStateChange += DeltaTime;
-
-	switch ( m_State )
-	{
-	case GodzillaState::Normal:
-		break;
-	case GodzillaState::Happy:
-	case GodzillaState::Sad:
-		if ( m_TimeSinceStateChange > 4.f )
-		{
-			SetState( GodzillaState::Normal );
-		}
-		break;
-	}
 
 }
 
@@ -90,17 +76,6 @@ void AGodzillaPawn::SetupPlayerInputComponent( UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction( "Fire", IE_Released, this, &AGodzillaPawn::EndFire );
 }
 
-
-void AGodzillaPawn::SetState( GodzillaState NewState )
-{
-	m_State = NewState;
-	m_TimeSinceStateChange = 0.f;
-}
-
-GodzillaState AGodzillaPawn::GetState() const
-{
-	return m_State;
-}
 
 void AGodzillaPawn::SetCarrying( bool carry )
 {
@@ -204,7 +179,6 @@ void AGodzillaPawn::FireBuilding( ABuildingSite* building )
 {
 	if ( building )
 	{
-		SetState( GodzillaState::Happy );
 		building->building_fired();
 	}
 }
@@ -216,7 +190,7 @@ bool AGodzillaPawn::IsCarrying() const
 
 void AGodzillaPawn::MoveForward( float Value )
 {
-	if ( (Controller != NULL) && (Value != 0.0f) && !m_breathing_fire )
+	if ( (Controller != NULL) && (Value != 0.0f) )
 	{
 		AddMovementInput( FVector( 1.f, 0.f, 0.f ), Value );
 	}

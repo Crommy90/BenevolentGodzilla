@@ -13,15 +13,6 @@
 class AResourcePoint;
 class ABuildingSite;
 
-UENUM( BlueprintType )
-enum class GodzillaState : uint8
-{
-	// Place-holder colours
-	Normal UMETA( DisplayName = "Normal" ),
-	Happy UMETA( DisplayName = "Happy" ),
-	Sad UMETA( DisplayName = "Sad" ),
-};
-
 UCLASS()
 class BENEVOLENTGODZILLA_API AGodzillaPawn : public APawn
 {
@@ -57,21 +48,12 @@ protected:
 	AResourcePoint* m_resource = nullptr;
 	ABuildingSite* m_building = nullptr;
 
-	GodzillaState m_State;
-	float m_TimeSinceStateChange = 0.f;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
-		void SetState( GodzillaState NewState );
-
-	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
-		GodzillaState GetState() const;
 
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
 		bool IsCarrying() const;
