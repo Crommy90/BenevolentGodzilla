@@ -28,23 +28,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "BuildingSite")
 		void PlaceColour(ResourceColour colour);
 
-	void building_fired();
-
 	UPROPERTY(EditAnywhere) 
 	TArray<ResourceColour> m_required;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMesh* m_cube;
-	UPROPERTY(EditAnywhere)
-	UMaterialInterface* m_blue;
-	UPROPERTY(EditAnywhere)
-	UMaterialInterface* m_green;
-	UPROPERTY(EditAnywhere)
-	UMaterialInterface* m_yellow;
 	
 	TArray<ResourceColour> m_placed;
 
 	float m_percentage_welded;
-
-	bool m_complete = false;
 };

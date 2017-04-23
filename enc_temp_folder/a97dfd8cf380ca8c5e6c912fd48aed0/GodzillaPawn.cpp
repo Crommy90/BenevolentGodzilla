@@ -175,14 +175,6 @@ void AGodzillaPawn::OverlappedBuilding( ABuildingSite* building )
 	m_building = building;
 }
 
-void AGodzillaPawn::FireBuilding( ABuildingSite* building )
-{
-	if ( building )
-	{
-		building->building_fired();
-	}
-}
-
 bool AGodzillaPawn::IsCarrying() const
 {
 	return m_carrying;

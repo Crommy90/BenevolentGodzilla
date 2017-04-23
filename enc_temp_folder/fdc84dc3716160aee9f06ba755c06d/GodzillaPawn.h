@@ -95,9 +95,6 @@ public:
 	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
 		void OverlappedBuilding( ABuildingSite* building );
 
-	UFUNCTION( BlueprintCallable, Category = "Godzilla" )
-		void FireBuilding( ABuildingSite* building );
-
 	UPROPERTY( EditAnywhere )
 		APlanet* m_planet;
 
